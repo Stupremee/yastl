@@ -152,6 +152,12 @@ pub struct ThreadConfig {
     stack_size: Option<usize>,
 }
 
+impl Default for ThreadConfig {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ThreadConfig {
     /// Create an empty `ThreadConfig` which can be used to configure thread spawning using it's
     /// builder like methods.
@@ -283,13 +289,15 @@ mod tests {
     #[test]
     fn spawn_doesnt_block() {
         let pool = Pool::new(num_cpus::get());
-        pool.spawn(move || loop {});
+        pool.spawn(move || loop {
+            sleep(Duration::from_millis(1000))
+        });
     }
 
     #[test]
     fn scope_forever_zoom() {
         let pool = Pool::new(num_cpus::get());
-        let forever = Scope::forever(pool.clone());
+        let forever = Scope::forever(pool);
 
         let ran = AtomicBool::new(false);
         forever.zoom(|scope| scope.execute(|| ran.store(true, Ordering::SeqCst)));
