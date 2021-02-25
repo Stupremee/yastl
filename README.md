@@ -34,6 +34,11 @@ fn main() {
 }
 ```
 
+## Feature Flags
+
+- `coz`: Enable support for the [`coz`](https://github.com/plasma-umass/coz) profiler.
+  Calls `coz::thread_init()` in every new thread.
+
 ### License
 
 Licensed under the [MIT][mit] license.

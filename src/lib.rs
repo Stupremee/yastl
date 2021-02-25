@@ -118,6 +118,9 @@ impl Pool {
     }
 
     fn run_thread(self) {
+        #[cfg(feature = "coz")]
+        coz::thread_init();
+
         let thread_sentinel = Sentinel(Some(self.wait.clone()));
 
         loop {
